@@ -386,13 +386,13 @@ START_TEST(test_sign_speed)
 
 	memcpy(priv_key, fromhex("c55ece858b0ddd5263f96810fe14437cd3b5e1fbd7c6a2ec1e031f05e86d8bd5"), 32);
 	for (i = 0 ; i < 250; i++) {
-		res = ecdsa_sign(priv_key, msg, sizeof(msg), sig);
+		res = ecdsa_sign(priv_key, msg, sizeof(msg), sig, 0);
 		ck_assert_int_eq(res, 0);
 	}
 
 	memcpy(priv_key, fromhex("509a0382ff5da48e402967a671bdcde70046d07f0df52cff12e8e3883b426a0a"), 32);
 	for (i = 0 ; i < 250; i++) {
-		res = ecdsa_sign(priv_key, msg, sizeof(msg), sig);
+		res = ecdsa_sign(priv_key, msg, sizeof(msg), sig, 0);
 		ck_assert_int_eq(res, 0);
 	}
 
@@ -587,7 +587,6 @@ START_TEST(test_aes)
 }
 END_TEST
 
-
 // test vectors from https://stackoverflow.com/questions/5130513/pbkdf2-hmac-sha2-test-vectors
 START_TEST(test_pbkdf2_hmac_sha256)
 {
@@ -607,20 +606,18 @@ START_TEST(test_pbkdf2_hmac_sha256)
 
 	strcpy((char *)s, "saltSALTsaltSALTsaltSALTsaltSALTsalt");
 	pbkdf2_hmac_sha256((uint8_t *)"passwordPASSWORDpassword", 3*8, s, 9*4, 4096, k, 64, 0);
-	ck_assert_mem_eq(k, fromhex("348c89dbcbd32b2f32d814b8116e84cf2b17347ebc1800181c4e2a1fb8dd53e1c635518c7dac47e9"), 40); 
+	ck_assert_mem_eq(k, fromhex("348c89dbcbd32b2f32d814b8116e84cf2b17347ebc1800181c4e2a1fb8dd53e1c635518c7dac47e9"), 40);
 }
 END_TEST
 
-
 // test vectors from http://stackoverflow.com/questions/15593184/pbkdf2-hmac-sha-512-test-vectors
-
-TART_TEST(test_pbkdf2_hmac_sha512)
+START_TEST(test_pbkdf2_hmac_sha512)
 {
 	uint8_t k[64], s[40];
 
 	strcpy((char *)s, "salt");
 	pbkdf2_hmac_sha512((uint8_t *)"password", 8, s, 4, 1, k, 64, 0);
-	ck_assert_mem_eq(k, fromhex("867f70cf1ade02cff3752599a3a53dc4af34c7a669815ae5d513554e1c8cf252c02d470a285a0501bad999bfe943c08f050235d7d68b1da55e63f73b60a57fce"), 64); 
+	ck_assert_mem_eq(k, fromhex("867f70cf1ade02cff3752599a3a53dc4af34c7a669815ae5d513554e1c8cf252c02d470a285a0501bad999bfe943c08f050235d7d68b1da55e63f73b60a57fce"), 64);
 
 	strcpy((char *)s, "salt");
 	pbkdf2_hmac_sha512((uint8_t *)"password", 8, s, 4, 2, k, 64, 0);
