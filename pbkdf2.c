@@ -25,7 +25,6 @@
 #include "pbkdf2.h"
 #include "hmac.h"
 
-
 void pbkdf2_hmac_sha256(const uint8_t *pass, int passlen, uint8_t *salt, int saltlen, uint32_t iterations, uint8_t *key, int keylen, void (*progress_callback)(uint32_t current, uint32_t total))
 {
 	const uint32_t HMACLEN = 256/8;
@@ -34,13 +33,13 @@ void pbkdf2_hmac_sha256(const uint8_t *pass, int passlen, uint8_t *salt, int sal
 	uint32_t blocks = keylen / HMACLEN;
 	if (keylen & (HMACLEN - 1)) {
 		blocks++;
-	}   
+	}
 	for (i = 1; i <= blocks; i++) {
 		salt[saltlen    ] = (i >> 24) & 0xFF;
 		salt[saltlen + 1] = (i >> 16) & 0xFF;
 		salt[saltlen + 2] = (i >> 8) & 0xFF;
 		salt[saltlen + 3] = i & 0xFF;
-		hmac_sha256(pass, passlen, salt, saltlen + 4, g); 
+		hmac_sha256(pass, passlen, salt, saltlen + 4, g);
 		memcpy(f, g, HMACLEN);
 		for (j = 1; j < iterations; j++) {
 			hmac_sha256(pass, passlen, g, HMACLEN, g);
