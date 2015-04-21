@@ -1,4 +1,4 @@
-trezor-crypto
+bwallet-crypto
 =============
 
 Heavily optimized cryptography algorithms for embedded devices.
