@@ -50,4 +50,25 @@
 #define BIP32_CACHE_MAXDEPTH 8
 #endif
 
+// implement BIP39 caching
+#ifndef USE_BIP39_CACHE
+#define USE_BIP39_CACHE 1
+#define BIP39_CACHE_SIZE 4
+#endif
+
+// support Ethereum operations
+#ifndef USE_ETHEREUM
+#define USE_ETHEREUM 0
+#endif
+
+// support Graphene operations (STEEM, BitShares)
+#ifndef USE_GRAPHENE
+#define USE_GRAPHENE 0
+#endif
+
+// support Keccak hashing
+#ifndef USE_KECCAK
+#define USE_KECCAK USE_ETHEREUM
+#endif
+
 #endif

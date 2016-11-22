@@ -29,6 +29,7 @@
 
 #include "ecdsa.h"
 #include "rand.h"
+#include "secp256k1.h"
 
 int main(int argc, char *argv[])
 {
@@ -38,7 +39,6 @@ int main(int argc, char *argv[])
 	EC_GROUP *ecgroup;
 	int cnt = 0;
 
-	init_rand();
 	ecgroup = EC_GROUP_new_by_curve_name(NID_secp256k1);
 
 	unsigned long max_iterations = -1;
@@ -82,21 +82,21 @@ int main(int argc, char *argv[])
 		}
 
 		// use our ECDSA signer to sign the message with the key
-		if (ecdsa_sign(priv_key, msg, msg_len, sig, 0) != 0) {
+		if (ecdsa_sign(&secp256k1, priv_key, msg, msg_len, sig, NULL, NULL) != 0) {
 			printf("trezor-crypto signing failed\n");
 			break;
 		}
 
 		// generate public key from private key
-		ecdsa_get_public_key33(priv_key, pub_key33);
-		ecdsa_get_public_key65(priv_key, pub_key65);
+		ecdsa_get_public_key33(&secp256k1, priv_key, pub_key33);
+		ecdsa_get_public_key65(&secp256k1, priv_key, pub_key65);
 
 		// use our ECDSA verifier to verify the message signature
-		if (ecdsa_verify(pub_key65, sig, msg, msg_len) != 0) {
+		if (ecdsa_verify(&secp256k1, pub_key65, sig, msg, msg_len) != 0) {
 			printf("trezor-crypto verification failed (pub_key_len = 65)\n");
 			break;
 		}
-		if (ecdsa_verify(pub_key33, sig, msg, msg_len) != 0) {
+		if (ecdsa_verify(&secp256k1, pub_key33, sig, msg, msg_len) != 0) {
 			printf("trezor-crypto verification failed (pub_key_len = 33)\n");
 			break;
 		}

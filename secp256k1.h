@@ -26,30 +26,10 @@
 
 #include <stdint.h>
 
-#include "bignum.h"
+#include "ecdsa.h"
+#include "bip32.h"
 
-// curve point x and y
-typedef struct {
-	bignum256 x, y;
-} curve_point;
-
-// secp256k1 prime
-extern const bignum256 prime256k1;
-
-// secp256k1 initial curve point
-extern const curve_point G256k1;
-
-// secp256k1 order of G
-extern const bignum256 order256k1;
-
-// secp256k1 order of G / 2
-extern const bignum256 order256k1_half;
-
-// 3/2 in G_p
-extern const bignum256 three_over_two256k1;
-
-#if USE_PRECOMPUTED_CP
-extern const curve_point secp256k1_cp[64][8];
-#endif
+extern const ecdsa_curve secp256k1;
+extern const curve_info secp256k1_info;
 
 #endif

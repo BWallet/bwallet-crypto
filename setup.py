@@ -5,10 +5,12 @@ from Cython.Build import cythonize
 from Cython.Distutils import build_ext
 
 srcs = [
+	'nist256p1',
 	'base58',
 	'bignum',
 	'bip32',
 	'ecdsa',
+	'curve25519',
 	'hmac',
 	'rand',
 	'ripemd160',
